@@ -1,4 +1,4 @@
-﻿var M={};
+var M={};
 M.parent=Game.Objects['Wizard tower'];
 M.parent.minigame=M;
 M.launch=function()
@@ -61,6 +61,7 @@ M.launch=function()
 					{
 						newShimmer.sizeMult=Math.random()*0.75+0.25;
 					}
+newShimmer.pop();
 					Game.Popup('<div style="font-size:80%;">'+loc("Promising fate!")+'</div>',Game.mouseX,Game.mouseY);
 				},
 				fail:function()
@@ -72,6 +73,7 @@ M.launch=function()
 					if (Math.random()<0.003) choices.push('free sugar lump');
 					if (Math.random()<0.1) choices=['blab'];
 					newShimmer.force=choose(choices);
+newShimmer.pop();
 					Game.Popup('<div style="font-size:80%;">'+loc("Backfire!")+'<br>'+loc("Sinister fate!")+'</div>',Game.mouseX,Game.mouseY);
 				},
 			},
@@ -481,6 +483,7 @@ M.launch=function()
 	}
 	M.logic=function()
 	{
+
 		//run each frame
 		if (Game.T%5==0) {M.computeMagicM();}
 		M.magicPS=Math.max(0.002,Math.pow(M.magic/Math.max(M.magicM,100),0.5))*0.002;
@@ -488,6 +491,9 @@ M.launch=function()
 		M.magic=Math.min(M.magic,M.magicM);
 		if (Game.T%5==0)
 		{
+			if (M.magic==M.magicM) {
+			M.castSpell(M.spells["hand of fate"]);
+			}
 			for (var i in M.spells)
 			{
 				var me=M.spells[i];
